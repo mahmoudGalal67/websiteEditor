@@ -1,2 +1,4 @@
 import Home from "../../site/Home.jsx";
-export default function HomeEditor() { return <Home editable />; }
+export default function HomeEditor() {
+  return <Home editable />;
+}

@@ -1,30 +1,32 @@
+import { SECTION_REGISTRY } from "./section-types/registry";
+
 export default function AddSectionModal({ onSelect, onClose }) {
-    return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-lg w-64 p-4 space-y-2">
-                <h3 className="font-semibold text-lg mb-2">Add Section</h3>
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-lg w-72 p-4 space-y-3">
+        <h3 className="font-semibold text-lg mb-2">Add Section</h3>
 
+        {Object.entries(SECTION_REGISTRY).map(([category, sections]) => (
+          <div key={category}>
+            <h4 className="font-medium text-sm mb-1 capitalize">{category}</h4>
+            <div className="flex flex-col gap-1">
+              {sections.map((sec) => (
                 <button
-                    onClick={() => onSelect("hero")}
-                    className="w-full p-2 border rounded hover:bg-gray-100"
+                  key={sec.type}
+                  className="w-full p-2 border rounded hover:bg-gray-100 text-left"
+                  onClick={() => onSelect(sec.type)}
                 >
-                    Hero Section
+                  {sec.label}
                 </button>
-
-                <button
-                    onClick={() => onSelect("text")}
-                    className="w-full p-2 border rounded hover:bg-gray-100"
-                >
-                    Text Section
-                </button>
-
-                <button
-                    onClick={onClose}
-                    className="w-full text-sm text-gray-500 mt-2"
-                >
-                    Cancel
-                </button>
+              ))}
             </div>
-        </div>
-    );
+          </div>
+        ))}
+
+        <button onClick={onClose} className="w-full text-sm text-gray-500 mt-2">
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
 }
