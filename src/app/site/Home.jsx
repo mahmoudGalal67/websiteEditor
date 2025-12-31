@@ -3,8 +3,9 @@ import { useCMS } from "../../cms/store";
 import SectionWrapper from "../../cms/SectionWrapper";
 import Hero from "../../cms/section-types/Hero";
 import Text from "../../cms/section-types/Text";
+import Image from "../../cms/section-types/Image";
 
-const MAP = { hero: Hero, text: Text };
+const MAP = { hero: Hero, text: Text, image: Image };
 
 export default function Home({ editable }) {
   const { pages, moveSection } = useCMS();

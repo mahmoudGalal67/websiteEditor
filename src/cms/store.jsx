@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 const CMSContext = createContext();
 
 export function CMSProvider({ children }) {
+
   const [pages, setPages] = useState({
     home: [
       {
@@ -77,18 +78,44 @@ export function CMSProvider({ children }) {
   };
 
   const addSection = (index, type) => {
+    const sectionMap = {
+      hero: {
+        type: "hero",
+        props: {
+          title: "New Hero",
+          subtitle: "Subtitle",
+          bg: "#020617",
+        },
+      },
+      text: {
+        type: "text",
+        props: {
+          text: "New text section",
+        },
+      },
+      image: {
+        type: "image",
+        props: {
+          src: "",
+          alt: "Image",
+        },
+      },
+    };
+
+    const config = sectionMap[type];
+    if (!config) return;
+
     const newSection = {
       id: nanoid(),
-      type,
-      props:
-        type === "hero"
-          ? { title: "New Hero", subtitle: "Subtitle", bg: "#020617" }
-          : { text: "New text section" },
+      ...config,
     };
+
     const arr = [...pages.home];
     arr.splice(index + 1, 0, newSection);
+
     saveHistory({ ...pages, home: arr });
   };
+
 
   const saveToBackend = async () => {
     try {

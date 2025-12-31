@@ -1,26 +1,183 @@
-import { NavLink } from "react-router-dom";
-import { Home, Palette, Share2 } from "lucide-react";
+import {
+  Home,
+  Inbox,
+  Calendar,
+  Search,
+  Settings,
+  Plus,
+  Shirt,
+  User,
+  ShoppingBasket,
+  User2,
+  ChevronUp,
+} from "lucide-react"
+import { Link } from "react-router-dom"
 
-const Item = ({ to, icon: Icon, children }) => (
-    <NavLink
-        to={to}
-        className={({ isActive }) =>
-            `flex items-center gap-2 px-4 py-2 rounded ${isActive ? "bg-blue-600 text-white" : "hover:bg-[#2c3338]"}`
-        }
-    >
-        <Icon size={16} /> {children}
-    </NavLink>
-);
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarSeparator,
+} from "@/components/ui/sidebar"
 
-export default function Sidebar() {
-    return (
-        <aside className="w-64 bg-[#1d2327] text-gray-200 p-3">
-            <h1 className="text-lg font-bold px-4 py-3 border-b border-gray-700">My CMS</h1>
-            <nav className="mt-4 space-y-1">
-                <Item to="/admin/home" icon={Home}>Home Page</Item>
-                <Item to="/admin/brand" icon={Palette}>Brand</Item>
-                <Item to="/admin/socials" icon={Share2}>Socials</Item>
-            </nav>
-        </aside>
-    );
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+import { Sheet, SheetTrigger } from "@/components/ui/sheet"
+
+const items = [
+  { title: "Home", url: "/", icon: Home },
+  { title: "Inbox", url: "/inbox", icon: Inbox },
+  { title: "Calendar", url: "/calendar", icon: Calendar },
+  { title: "Search", url: "/search", icon: Search },
+  { title: "Settings", url: "/settings", icon: Settings },
+]
+
+export default function AppSidebar() {
+  return (
+    <Sidebar>
+      {/* HEADER */}
+      <SidebarHeader className="py-4">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link to="/">
+                <span className="font-semibold text-base">Lama Dev</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+
+      <SidebarSeparator />
+
+      {/* CONTENT */}
+      <SidebarContent>
+        {/* APPLICATION */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link to={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+
+                  {item.title === "Inbox" && (
+                    <SidebarMenuBadge>24</SidebarMenuBadge>
+                  )}
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* PRODUCTS */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Products</SidebarGroupLabel>
+          <SidebarGroupAction>
+            <Plus />
+          </SidebarGroupAction>
+
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/products">
+                    <Shirt />
+                    <span>All Products</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <SidebarMenuButton>
+                      <Plus />
+                      <span>Add Product</span>
+                    </SidebarMenuButton>
+                  </SheetTrigger>
+                </Sheet>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* USERS */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Users</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/users">
+                    <User />
+                    <span>All Users</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* ORDERS */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Orders</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/orders">
+                    <ShoppingBasket />
+                    <span>Transactions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      {/* FOOTER */}
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User2 />
+                  John Doe
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Account</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
+  )
 }
